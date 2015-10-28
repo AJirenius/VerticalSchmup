@@ -1,0 +1,24 @@
+local gop = require "utils.gop"
+
+go.property("vulnerable_to", hash("default"))
+
+
+function init(self)
+    self.global = gop.get_properties()
+	self.global.is_dead = false
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("contact_point_response") then
+    	if message.group == self.vulnerable_to and self.global.is_dead == false then
+			msg.post(".","die")
+			self.global.is_dead = true
+			factory.create("/factories#blood", go.get_position(),nil,{},0.75)
+		elseif message.group == hash("explosion") and self.global.is_dead == false then
+			msg.post(".","die")
+			msg.post(".","throwback",{ direction = message.normal } )
+			self.global.is_dead = true
+			factory.create("/factories#blood", go.get_position(),nil,{},0.75)
+		end
+	end
+end

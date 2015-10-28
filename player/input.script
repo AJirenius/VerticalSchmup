@@ -1,0 +1,22 @@
+local gop = require "utils.gop"
+
+function init(self)
+	msg.post(".", "acquire_input_focus")
+	self.global = gop.get_properties()
+end
+
+function on_input(self, action_id, action)
+    if action_id == hash("up") then self.global.direction.y = self.global.direction.y + 1 end
+    if action_id == hash("down") then self.global.direction.y = self.global.direction.y - 1 end
+    if action_id == hash("left") then self.global.direction.x = self.global.direction.x - 1 end
+    if action_id == hash("right") then self.global.direction.x = self.global.direction.x + 1 end
+	if action_id == hash("fire") and action.pressed then 
+		local b_pos = go.get_position()
+		b_pos.y = b_pos.y + 16
+		factory.create("/factories#player_bullet", b_pos, nil, { direction = self.global.facing }) 
+	elseif action_id == hash("nade") and action.pressed then 
+		local b_pos = go.get_position()
+		b_pos.y = b_pos.y + 16
+		factory.create("/factories#player_nade", b_pos, nil, { direction = self.global.facing }) 
+	end
+end

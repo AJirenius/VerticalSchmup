@@ -1,0 +1,18 @@
+local config = require "main.config"
+
+function init(self)
+	self.cam_target = 0
+    msg.post("#camera", "acquire_camera_focus")
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("update_camera") then
+    	local new_target = message.player_y - config.SCROLL_LIMIT
+    	if new_target > self.cam_target then
+    		self.cam_target = new_target
+	    	local pos  = go.get_position()	
+		    pos.y = self.cam_target
+		    go.set_position(pos)
+	    end
+    end
+end

@@ -1,0 +1,72 @@
+local config = require "main.config"
+local anim = require "utils.anim"
+local gop = require "utils.gop"
+
+function init(self)
+    self.global = gop.get_properties()
+   
+    self.global.facing = vmath.vector3(0,1,0)
+    self.global.direction = vmath.vector3()
+ 	anim.play_animation(self, "idle_n")
+end
+
+local function reset_frame(self)
+	self.global.direction = vmath.vector3()
+	self.global.is_idle = false
+end
+
+local function update_animation(self)
+	local str = "walk_"
+	if self.global.is_idle then 
+		str = "idle_"
+		if self.global.facing.y > 0 then str = str .. "n"
+		elseif self.global.facing.y < 0 then str = str .. "s" end
+		if self.global.facing.x > 0 then str = str .. "e"
+		elseif self.global.facing.x < 0 then str = str .. "w" end
+	else
+		if self.global.direction.y > 0 then str = str .. "n"
+		elseif self.global.direction.y < 0 then str = str .. "s" end
+		if self.global.direction.x > 0 then str = str .. "e"
+		elseif self.global.direction.x < 0 then str = str .. "w" end
+	end
+	anim.play_animation(self, str)	
+end
+
+local function update_position(self, dt)
+	if self.global.is_idle then return end
+	local pos = go.get_position()
+	self.global.direction = vmath.normalize(self.global.direction)
+	pos = pos + self.global.direction * config.PLAYER_SPEED * dt
+	msg.post("/camera","update_camera",{ player_y = pos.y } )
+	go.set_position(pos)
+end
+
+
+
+function update(self, dt)
+	if self.global.is_dead == true then return end
+	
+	if self.global.direction.x == 0 and self.global.direction.y == 0 then 
+		self.global.is_idle = true
+	else
+		self.global.facing = self.global.direction
+	end
+	update_position(self, dt)
+	update_animation(self)
+    reset_frame(self)
+end
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("contact_point_response") and message.group == hash("static_env") then
+    	local pos = go.get_position()
+    	pos = pos + message.normal * message.distance
+    	go.set_position(pos)
+    elseif message_id == hash("die") then
+    	anim.play_animation(self, "death")
+    elseif message_id == hash("throwback") then
+    	local pos = go.get_position()
+    	go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, pos.x + message.direction.x * 80, go.EASING_OUTQUAD, 0.7, 0) 
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, pos.y + message.direction.y * 80, go.EASING_OUTQUAD, 0.7, 0) 
+  	end
+end
+

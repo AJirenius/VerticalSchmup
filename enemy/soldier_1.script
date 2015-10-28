@@ -1,0 +1,77 @@
+local config = require "main.config"
+local anim = require "utils.anim"
+local gop = require "utils.gop"
+
+function init(self)
+	self.fire_timer = config.ENEMY_FIRE_RATE
+	self.global = gop.get_properties()
+end
+
+local function calc_facing(self)
+	local en_pos = go.get_position()
+	local pl_pos = go.get_position("/player") 
+	self.global.facing = vmath.normalize(vmath.vector3(pl_pos.x - en_pos.x, pl_pos.y - en_pos.y, 0))
+	
+	self.face_string = ""
+	if self.global.facing.y > 0.4 then 
+		self.face_string = self.face_string .. "n"
+	elseif 
+		self.global.facing.y < -0.4 then self.face_string = self.face_string .. "s"
+	end
+	if self.global.facing.x > 0.4 then 
+		self.face_string = self.face_string .. "e"
+	elseif 
+		self.global.facing.x < -0.4 then self.face_string = self.face_string .. "w"
+	end
+	anim.play_animation(self, "walk_".. self.face_string)	
+end
+
+function update(self, dt)
+	if self.global.is_dead == true then return end
+	
+	self.fire_timer = self.fire_timer - dt
+	if self.fire_timer < 0 then
+		self.fire_timer = config.ENEMY_FIRE_RATE
+		local nr = math.random()
+		if nr < config.ENEMY_PROB_FIRE then
+			local b_pos = go.get_position()
+			b_pos.y = b_pos.y + 16
+			factory.create("/factories#enemy_bullet", b_pos, nil, { direction = self.global.facing  }) 	
+		end
+	end
+	calc_facing(self)
+end
+
+local function next_step(self)
+	if #self.positions < 2 then 
+		go.delete()
+	else	
+		local from = table.remove(self.positions,1)
+		local to = self.positions[1]
+		local distance = math.sqrt((from.x-to.x) * (from.x-to.x) + (from.y-to.y) * (from.y-to.y))
+		local time = distance/config.ENEMY_SPEED -- time in seconds
+		go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, to.x, go.EASING_LINEAR, time, 0) 
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, to.y, go.EASING_LINEAR, time, 0, function() next_step(self) end) 
+	end
+end
+
+
+
+function on_message(self, message_id, message, sender)
+    if message_id == hash("start_route") then
+    	self.positions = message.positions
+    	next_step(self)
+    elseif message_id == hash("die") then
+    	print("die")
+    	go.cancel_animations(".", "position.x")
+    	go.cancel_animations(".", "position.y")
+    	anim.play_animation(self, "death")
+    	msg.post("#collisionobject", "disable")
+    elseif message_id == hash("throwback") then
+    	local pos = go.get_position()
+    	go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, pos.x + message.direction.x * 80, go.EASING_OUTQUAD, 0.7, 0) 
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, pos.y + message.direction.y * 80, go.EASING_OUTQUAD, 0.7, 0) 
+    elseif message_id == hash("animation_done") and message.id == hash("death") then
+    	go.animate(".", "rotation.z", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.00001, 0.5, function() go.delete() end) 
+    end
+end

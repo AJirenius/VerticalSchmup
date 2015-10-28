@@ -1,0 +1,15 @@
+local level_creator = require "level.level_creator"
+local enemies_controller = require "enemy.enemies_controller"
+
+function init(self)
+	level_creator.create_level()    
+end
+
+function update(self, dt)
+	enemies_controller.check_for_enemy_start(go.get_position("/camera").y)
+end
+
+function on_message(self, message_id, message, sender)
+    -- Add message-handling code here
+    -- Remove this function if not needed
+end

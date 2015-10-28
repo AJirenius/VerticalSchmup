@@ -1,0 +1,30 @@
+images {
+  image: "/gfx/rock.png"
+}
+images {
+  image: "/gfx/sign.png"
+}
+images {
+  image: "/gfx/tent.png"
+}
+images {
+  image: "/gfx/tree.png"
+}
+images {
+  image: "/gfx/blood_splatter.png"
+}
+images {
+  image: "/gfx/blood_splatter_ground.png"
+}
+images {
+  image: "/gfx/fx/exp_ground.png"
+}
+images {
+  image: "/gfx/lensflare0.png"
+}
+images {
+  image: "/gfx/streakflare.png"
+}
+margin: 1
+extrude_borders: 1
+inner_padding: 0

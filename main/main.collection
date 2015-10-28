@@ -1,18 +1,197 @@
 name: "main"
+instances {
+  id: "camera"
+  prototype: "/camera/camera.go"
+  position {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "level"
+  prototype: "/level/level_1.go"
+  position {
+    x: 0.0
+    y: 0.0
+    z: -0.1
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "main"
+  prototype: "/main/main.go"
+  position {
+    x: 400.0
+    y: 1488.0
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
+instances {
+  id: "player"
+  prototype: "/player/player.go"
+  position {
+    x: 407.2507
+    y: 238.194
+    z: 0.0
+  }
+  rotation {
+    x: 0.0
+    y: 0.0
+    z: 0.0
+    w: 1.0
+  }
+  scale3 {
+    x: 1.0
+    y: 1.0
+    z: 1.0
+  }
+}
 scale_along_z: 0
 embedded_instances {
-  id: "go"
+  id: "factories"
   data: "embedded_components {\n"
-  "  id: \"sprite\"\n"
-  "  type: \"sprite\"\n"
-  "  data: \"tile_set: \\\"/main/logo.atlas\\\"\\n"
-  "default_animation: \\\"logo\\\"\\n"
-  "material: \\\"/builtins/materials/sprite.material\\\"\\n"
-  "blend_mode: BLEND_MODE_ALPHA\\n"
+  "  id: \"blood\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/gfx/fx/blood.go\\\"\\n"
   "\"\n"
   "  position {\n"
-  "    x: 640.0\n"
-  "    y: 360.0\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"enemy_bullet\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/weapons/enemy_bullet.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"nade_explosion\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/weapons/explosion.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"player_bullet\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/weapons/player_bullet.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"player_nade\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/weapons/player_nade.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"soldier_1\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/enemy/enemy.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "  }\n"
+  "  rotation {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
+  "    z: 0.0\n"
+  "    w: 1.0\n"
+  "  }\n"
+  "}\n"
+  "embedded_components {\n"
+  "  id: \"tree\"\n"
+  "  type: \"factory\"\n"
+  "  data: \"prototype: \\\"/level/tree.go\\\"\\n"
+  "\"\n"
+  "  position {\n"
+  "    x: 0.0\n"
+  "    y: 0.0\n"
   "    z: 0.0\n"
   "  }\n"
   "  rotation {\n"
@@ -24,8 +203,8 @@ embedded_instances {
   "}\n"
   ""
   position {
-    x: 0.0
-    y: 0.0
+    x: 375.98267
+    y: 331.8196
     z: 0.0
   }
   rotation {

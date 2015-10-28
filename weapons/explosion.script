@@ -1,0 +1,4 @@
+function init(self)
+    particlefx.play("#particlefx")
+    go.animate(".", "rotation.z", go.PLAYBACK_ONCE_FORWARD, 0, go.EASING_LINEAR, 0.00001, 0.2, function() go.delete() end)
+end

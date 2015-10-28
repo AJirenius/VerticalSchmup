@@ -1,0 +1,9 @@
+local layer_z = { -0.9, 0.0 }
+
+go.property("layer",1)
+
+function update(self, dt)
+	local pos = go.get_position()
+	pos.z = layer_z[self.layer]-pos.y*0.0001
+	go.set_position(pos)
+end
