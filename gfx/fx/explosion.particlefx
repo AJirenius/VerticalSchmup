@@ -473,7 +473,7 @@ emitters {
         t_x: 1.0
         t_y: 0.0
       }
-      spread: 0.0
+      spread: 200.0
     }
   }
   modifiers {

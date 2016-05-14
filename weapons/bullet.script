@@ -5,6 +5,7 @@ local config = require "main.config"
 
 function init(self)
 	self.direction = vmath.normalize(self.direction)
+	
 	local from = go.get_position()
 	local to = from + self.direction*self.distance
     go.animate(".","position.x", go.PLAYBACK_ONCE_FORWARD, to.x, go.EASING_LINEAR, self.time, 0, function() go.delete() end)

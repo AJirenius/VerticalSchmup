@@ -11,6 +11,7 @@ game_binding = /input/game.input_bindingc
 [display]
 width = 800
 height = 600
+display_profiles = /main/adefault.renderc
 
 [physics]
 scale = 0.02
@@ -22,4 +23,6 @@ shared_state = 1
 [graphics]
 default_texture_min_filter = nearest
 default_texture_mag_filter = nearest
+
+[sprite]
 

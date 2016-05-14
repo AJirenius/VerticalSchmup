@@ -12,11 +12,12 @@ function on_message(self, message_id, message, sender)
     if message_id == hash("contact_point_response") then
     	if message.group == self.vulnerable_to and self.global.is_dead == false then
 			msg.post(".","die")
+			--msg.post(".","throwback",{ direction = message.normal, strength = 20 } )
 			self.global.is_dead = true
 			factory.create("/factories#blood", go.get_position(),nil,{},0.75)
 		elseif message.group == hash("explosion") and self.global.is_dead == false then
 			msg.post(".","die")
-			msg.post(".","throwback",{ direction = message.normal } )
+			msg.post(".","throwback",{ direction = message.normal, strength = 100 } )
 			self.global.is_dead = true
 			factory.create("/factories#blood", go.get_position(),nil,{},0.75)
 		end

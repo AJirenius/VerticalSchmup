@@ -7,7 +7,7 @@ return {
   height = 80,
   tilewidth = 32,
   tileheight = 32,
-  nextobjectid = 13,
+  nextobjectid = 14,
   properties = {
     ["offset_y"] = "400"
   },
@@ -396,6 +396,20 @@ return {
             ["enemy_type"] = "soldier_1",
             ["offset_y"] = "600"
           }
+        },
+        {
+          id = 13,
+          name = "tent",
+          type = "static_object",
+          shape = "rectangle",
+          x = 184,
+          y = 2317.33,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          gid = 21,
+          visible = true,
+          properties = {}
         }
       }
     }

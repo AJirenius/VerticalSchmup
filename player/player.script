@@ -54,10 +54,12 @@ function update(self, dt)
 	update_position(self, dt)
 	update_animation(self)
     reset_frame(self)
+    print("update:")
 end
 
 function on_message(self, message_id, message, sender)
     if message_id == hash("contact_point_response") and message.group == hash("static_env") then
+    	print(message)
     	local pos = go.get_position()
     	pos = pos + message.normal * message.distance
     	go.set_position(pos)
@@ -65,8 +67,8 @@ function on_message(self, message_id, message, sender)
     	anim.play_animation(self, "death")
     elseif message_id == hash("throwback") then
     	local pos = go.get_position()
-    	go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, pos.x + message.direction.x * 80, go.EASING_OUTQUAD, 0.7, 0) 
-		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, pos.y + message.direction.y * 80, go.EASING_OUTQUAD, 0.7, 0) 
+    	go.animate(".", "position.x", go.PLAYBACK_ONCE_FORWARD, pos.x + message.direction.x * message.strength, go.EASING_OUTQUAD, 0.7, 0) 
+		go.animate(".", "position.y", go.PLAYBACK_ONCE_FORWARD, pos.y + message.direction.y * message.strength, go.EASING_OUTQUAD, 0.7, 0) 
   	end
 end
 
